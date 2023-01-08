@@ -1,0 +1,7 @@
+{
+    "scene-helpers": {
+        "setting-doubleclick": "Double click a scene in the navigation bar",
+        "setting-doubleclick-notes": "Open scene notes",
+        "setting-doubleclick-config": "Open scene onfiguration"
+    }
+}

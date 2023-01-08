@@ -1,0 +1,7 @@
+#navigation .scene .scene-name i + i {
+    margin-left: 3px;
+}
+
+#navigation .scene .scene-name .pin-icon {
+    margin-right: 2px;
+}
