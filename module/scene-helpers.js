@@ -14,36 +14,37 @@ Hooks.on("init", () => {
 });
 
 Hooks.on("setup", () => {
-    libWrapper.register("scene-helpers", "SidebarDirectory.prototype._onClickDocumentName", onClickDocumentName, "MIXED");
+    libWrapper.register("scene-helpers", "SceneDirectory.prototype.activateListeners", onSceneDirectoryListeners, "MIXED");
     libWrapper.register("scene-helpers", "SceneNavigation.prototype._onClickScene", onClickScene, "MIXED");
 });
 
-function onClickDocumentName(wrapped, event) {
-    const element = event.currentTarget;
-    const documentId = element.parentElement.dataset.documentId;
-    const document = this.constructor.collection.get(documentId);
-
-    if (document.documentName == "Scene" && document.testUserPermission(game.user, "LIMITED")) {
-        if ((event.ctrlKey || event.metaKey) && !event.altKey) {
-            document.activate();
-        } else if (!(event.ctrlKey || event.metaKey) && event.altKey) {
-            if (game.user.isGM) {
-                const sheet = document.sheet;
-                if (sheet.rendered) {
-                    sheet.maximize();
-                    sheet.bringToTop();
+function onSceneDirectoryListeners(wrapped, html) {
+    html.find(".document.scene")
+        .click((event) => {
+            const element = event.currentTarget;
+            const documentId = element.dataset.documentId;
+            const document = this.constructor.collection.get(documentId);
+        
+            if (document.testUserPermission(game.user, "LIMITED")) {
+                if ((event.ctrlKey || event.metaKey) && !event.altKey) {
+                    document.activate();
+                } else if (!(event.ctrlKey || event.metaKey) && event.altKey) {
+                    if (game.user.isGM) {
+                        const sheet = document.sheet;
+                        if (sheet.rendered) {
+                            sheet.maximize();
+                            sheet.bringToTop();
+                        } else {
+                            sheet.render(true);
+                        }
+                    }
                 } else {
-                    sheet.render(true);
+                    document.view();
                 }
             }
-        } else {
-            document.view();
-        }
+        });
 
-        return true;
-    } else {
-        return wrapped(event);
-    }
+    wrapped(html);
 }
 
 function togglePin(event) {

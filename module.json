@@ -4,13 +4,13 @@
     "description": "Small improvements to scene controls.",
     "authors": [
         {
-            "name": "Tero Parvinen (Whistler#3253)"
+            "name": "Tero Parvinen (tero.p)"
         }
     ],
-    "version": "10.0",
+    "version": "11.0",
     "compatibility": {
-        "minimum": 10,
-        "verified": 10
+        "minimum": 11,
+        "verified": 11
     },
     "relationships": {
         "requires": [
