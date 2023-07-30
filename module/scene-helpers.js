@@ -14,7 +14,10 @@ Hooks.on("init", () => {
 });
 
 Hooks.on("setup", () => {
+    libWrapper.ignore_conflicts("scene-helpers", "monks-active-tiles", "SceneDirectory.prototype._onClickEntryName");
+
     libWrapper.register("scene-helpers", "SceneDirectory.prototype.activateListeners", onSceneDirectoryListeners, "MIXED");
+    libWrapper.register("scene-helpers", "SceneDirectory.prototype._onClickEntryName", onClickSceneEntryName, "MIXED");
     libWrapper.register("scene-helpers", "SceneNavigation.prototype._onClickScene", onClickScene, "MIXED");
 });
 
@@ -45,6 +48,12 @@ function onSceneDirectoryListeners(wrapped, html) {
         });
 
     wrapped(html);
+}
+
+function onClickSceneEntryName(wrapped, ...args) {
+    if (this.constructor.name != "SceneDirectory") {
+        return wrapped(...args);
+    }
 }
 
 function togglePin(event) {
